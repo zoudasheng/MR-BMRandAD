@@ -28,6 +28,7 @@ res
 
 OR <-generate_odds_ratios(res)
 OR
+write.csv(het,file = "mr.csv")
 
 het <- mr_heterogeneity(dat)
 het
@@ -45,4 +46,3 @@ mr_scatter_plot(res,dat)
 res_single <- mr_singlesnp(dat)
 mr_forest_plot(res_single)
 
-mr_funnel_plot(res_single)
