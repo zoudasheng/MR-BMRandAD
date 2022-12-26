@@ -1,5 +1,7 @@
-#BMR ID：ukb-b-16446  AD ID：ieu-b-2
+install.packages("devtools")
+devtools::install_github("MRCIEU/TwoSampleMR")
 
+#BMR ID：ukb-b-16446  AD ID：ieu-b-2
 library(TwoSampleMR)
 
 exp_dat <- extract_instruments(outcomes = 'ukb-b-16446')
