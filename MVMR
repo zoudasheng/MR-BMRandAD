@@ -1,0 +1,30 @@
+#Standing heigth ID ukb-b-10787 BMR ID ukb-b-16446
+
+library(TwoSampleMR)
+library(tidyverse)
+id_exposure <- c("ukb-b-10787", "ukb-b-16446") 
+id_outcome <- "ieu-b-2"
+exposure_dat <- mv_extract_exposures(id_exposure)
+outcome_dat <- extract_outcome_data(exposure_dat$SNP, id_outcome)
+dat <- mv_harmonise_data(exposure_dat, outcome_dat)
+res <- mv_multiple(dat)
+res
+write.csv(res,file = "mvmr_pre.csv")
+OR <-generate_odds_ratios(res[["result"]])
+OR
+
+
+#Weight ID ukb-b-12039 BMR ID ukb-b-16446
+
+library(TwoSampleMR)
+library(tidyverse)
+id_exposure <- c("ukb-b-12039", "ukb-b-16446")
+id_outcome <- "ieu-b-2"
+exposure_dat <- mv_extract_exposures(id_exposure)
+outcome_dat <- extract_outcome_data(exposure_dat$SNP, id_outcome)
+dat <- mv_harmonise_data(exposure_dat, outcome_dat)
+res <- mv_multiple(dat)
+res
+write.csv(res,file = "mvmr_pre.csv")
+OR <-generate_odds_ratios(res[["result"]])
+OR
