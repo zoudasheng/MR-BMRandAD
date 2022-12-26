@@ -1,0 +1,45 @@
+# AD ID：ieu-b-2 BMR ID：ukb-b-16446 
+
+library(TwoSampleMR)
+
+exp_dat <- extract_instruments(outcomes = 'ieu-b-2')
+
+AD_out_dat <- extract_outcome_data(snps = exp_dat$SNP, outcomes = 'ukb-b-16446')  
+
+dat <- harmonise_data(exp_dat, AD_out_dat)
+
+devtools::install_github("rondolab/MR-PRESSO",force = TRUE)
+
+library(MRPRESSO)
+mr_presso(BetaOutcome ="beta.outcome", BetaExposure = "beta.exposure", SdOutcome ="se.outcome", SdExposure = "se.exposure", 
+                  OUTLIERtest = TRUE,DISTORTIONtest = TRUE, data = dat, NbDistribution = 1000,  
+                  SignifThreshold = 0.05)
+
+datp<-dat[-c(18),]
+write.csv(datp,file = "datp.csv")
+
+library(data.table)
+dat<-fread("datp.csv")
+
+res <-mr(dat, method_list = c("mr_egger_regression", "mr_ivw","mr_weighted_median","mr_weighted_mode_nome"))
+res
+
+OR <-generate_odds_ratios(res)
+OR
+write.csv(het,file = "mr.csv")
+
+het <- mr_heterogeneity(dat)
+het
+write.csv(het,file = "het.csv")
+
+pleio <- mr_pleiotropy_test(dat)
+pleio
+write.csv(pleio,file = "pleio.csv")
+
+single <- mr_leaveoneout(dat)
+mr_leaveoneout_plot(single)
+
+mr_scatter_plot(res,dat)
+
+res_single <- mr_singlesnp(dat)
+mr_forest_plot(res_single)
